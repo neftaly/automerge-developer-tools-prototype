@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ReactJson from '@microlink/react-json-view'
 import testdata from "./testdata";
 
 export const Document = ({ url }) => {
@@ -33,7 +34,7 @@ export const Document = ({ url }) => {
           overflowY: "scroll",
         }}
       >
-        {JSON.stringify(tree, null, 2)}
+        <ReactJson src={tree} theme='monokai' />
       </div>
     </div>
   );
