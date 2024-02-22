@@ -1,4 +1,9 @@
+import { useState } from "react";
+import testdata from "./testdata";
+
 export const Document = ({ url }) => {
+  const [tree, setTree] = useState(testdata);
+
   if (!url) return null;
   return (
     <div
@@ -23,9 +28,12 @@ export const Document = ({ url }) => {
           padding: "1em",
           marginBottom: "1em",
           flex: 1,
+          whiteSpace: "pre",
+          overflowX: "auto",
+          overflowY: "scroll",
         }}
       >
-        (JSON VIEW)
+        {JSON.stringify(tree, null, 2)}
       </div>
     </div>
   );

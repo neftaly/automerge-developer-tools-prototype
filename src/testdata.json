@@ -1,0 +1,51 @@
+{
+  "test": {
+    "a": {
+      "b": 123,
+      "c": "hello",
+      "w": {
+        "x": [
+          {
+            "y": "z"
+          }
+        ],
+        "aaaa": 123.456
+      }
+    },
+    "d": {},
+    "e": [true, false, null, 1]
+  },
+  "prob": "2023-03-31",
+  "children": {
+    "children": [
+      {
+        "position": [0, 0, 0],
+        "rotation": [1.5707963267948966, 0, 0],
+        "scale": [4, 4, 4],
+        "src": "donut_sprinkles_kenny_cc0.gltf",
+        "children": [
+          {
+            "position": [0.5, 1, 0],
+            "rotation": [0, 0, 0],
+            "scale": [4, 4, 4],
+            "src": "donut_sprinkles_kenny_cc0.gltf",
+            "children": [
+              {
+                "position": [-0.5, 1, 0],
+                "rotation": [0, 0, 0],
+                "scale": [4, 4, 4],
+                "src": "donut_sprinkles_kenny_cc0.gltf"
+              }
+            ]
+          },
+          {
+            "position": [-0.5, 1, 0],
+            "rotation": [0, 0, 0],
+            "scale": [4, 4, 4],
+            "src": "donut_sprinkles_kenny_cc0.gltf"
+          }
+        ]
+      }
+    ]
+  }
+}
