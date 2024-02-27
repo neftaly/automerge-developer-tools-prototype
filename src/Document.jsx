@@ -34,7 +34,11 @@ export const Document = ({ url }) => {
           overflowY: "scroll",
         }}
       >
-        <ReactJson src={tree} theme="monokai" />
+        <ReactJson
+          src={tree}
+          theme="bright"
+          style={{ backgroundColor: "transparent" }}
+        />
       </div>
     </div>
   );
