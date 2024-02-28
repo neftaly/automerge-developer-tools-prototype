@@ -42,7 +42,6 @@ export const App = () => {
           order: 2,
           padding: "1em 2em 1em 2em",
           borderRight: "1px solid white",
-          minWidth: "17em",
         }}
       />
       <Document url={selectedUrl} />

@@ -5,7 +5,7 @@ import { getLinkUrl } from "./useStore";
 import { useMemo } from "react";
 
 // Shorten URL
-const truncate = compose(concat(__, "..."), take(14));
+const truncate = compose(concat(__, "..."), take(16));
 
 // Generate random color for URL
 const getColor = (url) =>
