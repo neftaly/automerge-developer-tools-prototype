@@ -1,8 +1,9 @@
-import ReactJson from "@microlink/react-json-view";
+import { Tree } from "./Tree";
 import testdata from "./testdata";
 
 export const Document = ({ url }) => {
   if (!url) return null;
+  const handleAdd = {};
   return (
     <div
       style={{
@@ -31,11 +32,7 @@ export const Document = ({ url }) => {
           overflowY: "scroll",
         }}
       >
-        <ReactJson
-          src={testdata}
-          theme="bright"
-          style={{ backgroundColor: "transparent" }}
-        />
+        <Tree value={testdata} onEvent={console.info} />
       </div>
     </div>
   );
