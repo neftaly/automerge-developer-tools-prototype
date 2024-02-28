@@ -37,7 +37,12 @@ export const getUrl = (state, { name, version }) => {
   const newValue = JSON.stringify({ state, version });
   const searchParams = new URLSearchParams();
   searchParams.set(name, newValue);
-  return `${window.location.origin}?${searchParams.toString()}`;
+  return (
+    window.location.origin +
+    window.location.pathname +
+    "?" +
+    searchParams.toString()
+  );
 };
 
 // Generate a link to open an automerge document URL
