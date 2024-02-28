@@ -3,6 +3,8 @@ import { Actions, ExpandButton } from "./Buttons";
 import { isObject, isString, isValidJSON, EVENTS } from "./helpers";
 import { Key, Value } from "./Fields";
 
+export { EVENTS };
+
 const Node = ({ name, value, path, theme, onEvent, canKeyBeEdited }) => {
   const [expanded, setExpanded] = useState(true);
   const expandable = isObject(value);

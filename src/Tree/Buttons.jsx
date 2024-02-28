@@ -53,13 +53,13 @@ export const Actions = ({ path, isBranch, onEvent }) => (
           title="Add"
           onClick={(event) => onEvent({ event, path, type: EVENTS.ADD })}
         />
+        <Button
+          children="❌"
+          title="Delete"
+          onClick={(event) => onEvent({ event, path, type: EVENTS.DELETE })}
+        />
       </>
     )}
-    <Button
-      children="❌"
-      title="Delete"
-      onClick={(event) => onEvent({ event, path, type: EVENTS.DELETE })}
-    />
   </div>
 );
 
