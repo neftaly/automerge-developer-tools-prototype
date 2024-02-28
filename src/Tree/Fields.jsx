@@ -14,7 +14,7 @@ export const Key = ({ value, onEvent, path, editable }) => {
       <span
         style={{
           fontWeight: "bold",
-          // cursor: 'ns-resize', // TODO: Array re-ordering by drag-and-drop
+          // cursor: 'ns-resize', // TODO: Drag-and-drop array re-ordering
         }}
         children={`${value}`}
       />

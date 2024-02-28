@@ -97,7 +97,6 @@ export const Tree = ({ value, style, path = [], theme: t, onEvent }) => {
       style={{
         fontFamily: "monospace",
         marginLeft: `-${theme.indent}`,
-        cursor: "default",
         ...style,
       }}
     >
