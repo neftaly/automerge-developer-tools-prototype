@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { DocumentList } from "./DocumentList";
 import { Document } from "./Document";
+import { useStore } from "./useStore";
 
 const AUTOMERGE_URLS = [
   "automerge:2ukjjAmeKgADB2N5hAfkARYoRNF5",
@@ -19,8 +20,13 @@ const AUTOMERGE_URLS = [
 ];
 
 export const App = () => {
-  const [selectedUrl, setSelectedUrl] = useState(null);
   const [urls, setUrls] = useState(AUTOMERGE_URLS);
+  const [selectedUrl, setSelectedUrl] = useStore((s) => [
+    s.selectedUrl,
+    s.setSelectedUrl,
+  ]);
+
+  console.log(useStore);
 
   return (
     <div

@@ -1,10 +1,7 @@
-import { useState } from "react";
 import ReactJson from "@microlink/react-json-view";
 import testdata from "./testdata";
 
 export const Document = ({ url }) => {
-  const [tree, setTree] = useState(testdata);
-
   if (!url) return null;
   return (
     <div
@@ -35,7 +32,7 @@ export const Document = ({ url }) => {
         }}
       >
         <ReactJson
-          src={tree}
+          src={testdata}
           theme="bright"
           style={{ backgroundColor: "transparent" }}
         />

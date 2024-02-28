@@ -1,6 +1,8 @@
 import randomColor from "randomcolor";
 import invert from "invert-color";
 import { __, concat, take, compose } from "ramda";
+import { getLinkUrl } from "./useStore";
+import { useMemo } from "react";
 
 // Shorten URL
 const truncate = compose(concat(__, "..."), take(14));
@@ -17,6 +19,7 @@ const getBackgroundColor = (url) => invert(getColor(url)); // Invert color
 
 // Individual clickable URL
 const DocumentUrl = ({ url, isSelected, onClick }) => {
+  const linkUrl = useMemo(() => getLinkUrl(url), [url]);
   return (
     <a
       onClick={(e) => {
@@ -28,7 +31,7 @@ const DocumentUrl = ({ url, isSelected, onClick }) => {
         padding: "0.5em 0 0.5em 0",
         color: getColor(url),
       }}
-      href="#"
+      href={linkUrl}
     >
       <div
         style={{
