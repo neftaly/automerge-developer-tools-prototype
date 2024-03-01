@@ -31,8 +31,7 @@ export const load = () =>
       return Promise.resolve(data);
     });
 
-export const save = (data) => {
-  const filename = `automerge-export.json`;
+export const save = (data, { filename = "file.json" }) => {
   saveAs(
     new Blob([JSON.stringify(data)], {
       type: "application/json;charset=utf-8",

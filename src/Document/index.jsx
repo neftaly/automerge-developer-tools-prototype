@@ -47,7 +47,8 @@ export const Document = ({ url }) => {
                   JSON.stringify(data, null, 2),
                 );
               case EVENTS.EXPORT:
-                return save(data);
+                const filename = `${url.replace(":", "-")}-${eventPath.join(".")}.json`;
+                return save(data, { filename });
               case EVENTS.IMPORT:
                 return load()
                   .then((data) =>
