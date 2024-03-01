@@ -26,25 +26,30 @@ const Button = (props) => {
 export const Actions = ({ path, isBranch, onEvent }) => (
   <div
     style={{
-      marginRight: "1ch",
+      margin: "0 2ch 0 2ch",
       display: "inline-block",
       userSelect: "none",
     }}
   >
     <Button
       children="📋"
-      title="Copy to clipboard"
+      title="Copy JSON to clipboard"
       onClick={(event) => onEvent({ event, path, type: EVENTS.COPY })}
     />
     <Button
+      children="💾"
+      title="Export JSON to file"
+      onClick={(event) => onEvent({ event, path, type: EVENTS.EXPORT })}
+    />
+    <Button
       children="📂"
-      title="Import JSON"
+      title="Import JSON from file"
       onClick={(event) => onEvent({ event, path, type: EVENTS.IMPORT })}
     />
     <Button
-      children="💾"
-      title="Export JSON"
-      onClick={(event) => onEvent({ event, path, type: EVENTS.EXPORT })}
+      children="❌"
+      title="Delete"
+      onClick={(event) => onEvent({ event, path, type: EVENTS.DELETE })}
     />
     {isBranch && (
       <>
@@ -52,11 +57,6 @@ export const Actions = ({ path, isBranch, onEvent }) => (
           children="➕"
           title="Add"
           onClick={(event) => onEvent({ event, path, type: EVENTS.ADD })}
-        />
-        <Button
-          children="❌"
-          title="Delete"
-          onClick={(event) => onEvent({ event, path, type: EVENTS.DELETE })}
         />
       </>
     )}

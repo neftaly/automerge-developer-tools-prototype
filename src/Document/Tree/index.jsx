@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { Actions, ExpandButton } from "./Buttons";
-import { isObject, isString, isValidJSON, EVENTS } from "./helpers";
+import { isObject, isString, EVENTS } from "./helpers";
 import { Key, Value } from "./Fields";
 
 export { EVENTS };
 
 const Node = ({ name, value, path, theme, onEvent, canKeyBeEdited }) => {
+  const [hover, setHover] = useState(false);
   const [expanded, setExpanded] = useState(true);
   const expandable = isObject(value);
   const [openBracket, closeBracket] = Array.isArray(value)
     ? ["[", "]"]
     : ["{", "}"];
-  const [hover, setHover] = useState(false);
   return (
     <div
       style={{
@@ -37,9 +37,10 @@ const Node = ({ name, value, path, theme, onEvent, canKeyBeEdited }) => {
       {name && (
         <Key
           value={name}
+          onEvent={onEvent}
           path={path}
+          theme={theme}
           editable={canKeyBeEdited}
-          onEvent={(event) => onEvent({ event, path, type: EVENTS.CHANGE_KEY })}
         />
       )}
       {name && ": "}
@@ -51,15 +52,7 @@ const Node = ({ name, value, path, theme, onEvent, canKeyBeEdited }) => {
         (expandable ? (
           <Branch value={value} path={path} theme={theme} onEvent={onEvent} />
         ) : (
-          <Value
-            value={value}
-            onEvent={(event) =>
-              onEvent({ event, path, type: EVENTS.CHANGE_VALUE })
-            }
-            path={path}
-            theme={theme}
-            error={!isValidJSON(value)}
-          />
+          <Value value={value} onEvent={onEvent} path={path} theme={theme} />
         ))}
       {expandable && !expanded && "..."}
       {!expandable && hover && <Actions path={path} onEvent={onEvent} />}
@@ -90,8 +83,9 @@ export const Tree = ({ value, style, path = [], theme: t, onEvent }) => {
   const theme = {
     indent: "2ch",
     guide: ["1px", "dotted", "white"],
-    error: "red",
     expandButton: "white",
+    intermediate: "aqua",
+    error: "salmon",
     ...t,
   };
   return (
