@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { isValidJSON, EVENTS } from "./helpers";
 
-const Field = ({ value, style, onChange, theme }) => {
+const Field = ({ value, style, onChange, theme, allowEmptyStrings }) => {
   const [intermediateValue, setIntermediateValue] = useState();
   const hasBeenEdited = intermediateValue !== undefined;
   const v = intermediateValue ?? JSON.stringify(value);
-  const isValid = isValidJSON(v);
+  const isValid = isValidJSON(v) && (allowEmptyStrings || v !== '""');
   return (
     <input
       value={v}
@@ -68,6 +68,7 @@ export const Value = ({ value, onEvent, path, theme }) => {
       style={{
         minWidth: "3ch",
       }}
+      allowEmptyStrings
     />
   );
 };

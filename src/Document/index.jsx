@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Tree } from "./Tree";
 import testdata from "./testdata";
 import { EVENTS } from "./Tree";
-import { path, assocPath } from "ramda";
+import { compose, init, last, path, assocPath, dissocPath } from "ramda";
 import { save, load } from "./saveload";
 
 export const Document = ({ url }) => {
@@ -58,20 +58,38 @@ export const Document = ({ url }) => {
                     alert("Error loading JSON:\n" + error.message);
                   });
               case EVENTS.ADD:
-                const key = prompt("Key?");
-                if (key) {
-                  console.log("Add", key, "to", eventPath);
-                }
-                return;
+                return changeDoc((d) => {
+                  const oldValue = path(eventPath, d);
+                  const key = Array.isArray(oldValue)
+                    ? oldValue.length
+                    : prompt("Key?");
+                  if (!key) return d;
+                  const newPath = [...eventPath, key];
+                  if (path(newPath, d) !== undefined) {
+                    alert(`Error: Key "${key}" already exists`);
+                    return d;
+                  }
+                  return assocPath(newPath, null, d);
+                });
               case EVENTS.DELETE:
-                if (confirm(`Delete ${eventPath.join(".")}?`)) {
-                  console.log("delete", eventPath);
-                }
+                // TODO: this should work correctly with arrays
+                if (confirm(`Delete ${eventPath.join(".")}?`))
+                  changeDoc(dissocPath(eventPath));
                 return;
               case EVENTS.CHANGE_KEY:
-                console.log("rename", eventPath, "to", event.target.value);
-                return;
+                // this should be a "move" operation
+                return changeDoc((d) => {
+                  const newKey = JSON.parse(event.target.value);
+                  if (newKey === last(eventPath)) return d; // value didn't change
+                  const newPath = [...init(eventPath), newKey];
+                  const value = path(eventPath, d);
+                  return compose(
+                    assocPath(newPath, value),
+                    dissocPath(eventPath),
+                  )(d);
+                });
               case EVENTS.CHANGE_VALUE:
+                // TODO: this should work correctly with arrays
                 return changeDoc((d) =>
                   assocPath(eventPath, JSON.parse(event.target.value), d),
                 );
