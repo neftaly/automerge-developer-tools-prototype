@@ -14,9 +14,6 @@ const getColor = (url) =>
     luminosity: "light",
   });
 
-// Generate background color for selected URL
-const getBackgroundColor = (url) => invert(getColor(url)); // Invert color
-
 // Individual clickable URL
 const DocumentUrl = ({ url, isSelected, onClick }) => {
   const linkUrl = useMemo(() => getLinkUrl(url), [url]);
@@ -29,7 +26,7 @@ const DocumentUrl = ({ url, isSelected, onClick }) => {
       style={{
         display: "block",
         padding: "0.5em 0 0.5em 0",
-        color: getColor(url),
+        color: isSelected ? "white" : getColor(url),
       }}
       href={linkUrl}
     >
@@ -37,7 +34,7 @@ const DocumentUrl = ({ url, isSelected, onClick }) => {
         style={{
           padding: "2px",
           margin: "-2px",
-          backgroundColor: isSelected && getBackgroundColor(url),
+          backgroundColor: isSelected && "#555", // TODO: make part of theme
         }}
       >
         "{truncate(url)}"

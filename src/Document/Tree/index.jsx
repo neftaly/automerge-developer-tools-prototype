@@ -66,9 +66,9 @@ const Node = ({ name, value, path, theme, onEvent, canKeyBeEdited }) => {
 
 const Branch = ({ path, value, theme, onEvent }) => {
   const isArray = Array.isArray(value);
-  return Object.entries(value).map(([name, v], key) => (
+  return Object.entries(value).map(([name, v]) => (
     <Node
-      key={key}
+      key={name}
       name={name}
       value={v}
       theme={theme}
