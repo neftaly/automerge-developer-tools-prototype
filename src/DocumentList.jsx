@@ -34,7 +34,7 @@ const DocumentUrl = ({ url, isSelected, onClick }) => {
         style={{
           padding: "2px",
           margin: "-2px",
-          backgroundColor: isSelected && "#555", // TODO: make part of theme
+          backgroundColor: isSelected && "#444",
         }}
       >
         "{truncate(url)}"

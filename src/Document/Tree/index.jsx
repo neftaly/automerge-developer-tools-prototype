@@ -1,31 +1,38 @@
 import { useState } from "react";
-import { Actions, ExpandButton } from "./Buttons";
+import { ExpandButton } from "./ExpandButton";
 import { isObject, isString, EVENTS } from "./helpers";
 import { Key, Value } from "./Fields";
+import { useTree } from "./useTree";
+import { equals } from "ramda";
 
 export { EVENTS };
 
-const Node = ({ name, value, path, theme, onEvent, canKeyBeEdited }) => {
-  const [hover, setHover] = useState(false);
+const Node = ({ name, value, path, theme, canKeyBeEdited }) => {
   const [expanded, setExpanded] = useState(true);
+  const [hoverPath, contextMenuPath, actions] = useTree((s) => [
+    s.hover,
+    s.contextMenu.path,
+    s.actions,
+  ]);
   const expandable = isObject(value);
   const [openBracket, closeBracket] = Array.isArray(value)
     ? ["[", "]"]
     : ["{", "}"];
+  const isContextMenuOpen = equals(contextMenuPath, path);
+  const isHovering = equals(hoverPath, path);
   return (
     <div
       style={{
         position: "relative",
         marginLeft: `calc(${theme.indent} - ${theme.guide[0]})`,
+        backgroundColor: isContextMenuOpen && theme.selection,
         borderLeft: `${theme.guide[0]} ${theme.guide[1]} ${
-          hover ? theme.guide[2] : "transparent"
+          isHovering ? theme.guide[2] : "transparent"
         }`,
       }}
-      onMouseOver={(e) => {
-        setHover(true);
-        e.stopPropagation(); // Only show 1 guide at a time
-      }}
-      onMouseOut={(e) => setHover(false)}
+      onContextMenu={actions.setContextMenu(path)}
+      onMouseOver={actions.setHover(path)}
+      onMouseOut={actions.setHover(false)}
     >
       {expandable && (
         <ExpandButton
@@ -35,36 +42,23 @@ const Node = ({ name, value, path, theme, onEvent, canKeyBeEdited }) => {
         />
       )}
       {name && (
-        <Key
-          value={name}
-          onEvent={onEvent}
-          path={path}
-          theme={theme}
-          editable={canKeyBeEdited}
-        />
+        <Key value={name} path={path} theme={theme} editable={canKeyBeEdited} />
       )}
       {name && ": "}
       {expandable && openBracket}
-      {expanded && expandable && hover && (
-        <Actions path={path} onEvent={onEvent} isBranch />
-      )}
       {expanded &&
         (expandable ? (
-          <Branch value={value} path={path} theme={theme} onEvent={onEvent} />
+          <Branch value={value} path={path} theme={theme} />
         ) : (
-          <Value value={value} onEvent={onEvent} path={path} theme={theme} />
+          <Value value={value} path={path} theme={theme} />
         ))}
       {expandable && !expanded && "..."}
-      {!expandable && hover && <Actions path={path} onEvent={onEvent} />}
       {expandable && closeBracket}
-      {expandable && !expanded && hover && (
-        <Actions path={path} onEvent={onEvent} />
-      )}
     </div>
   );
 };
 
-const Branch = ({ path, value, theme, onEvent }) => {
+const Branch = ({ path, value, theme }) => {
   const isArray = Array.isArray(value);
   return Object.entries(value).map(([name, v]) => (
     <Node
@@ -73,18 +67,19 @@ const Branch = ({ path, value, theme, onEvent }) => {
       value={v}
       theme={theme}
       path={[...path, name]}
-      onEvent={onEvent}
       canKeyBeEdited={!isArray}
     />
   ));
 };
 
-export const Tree = ({ value, style, path = [], theme: t, onEvent }) => {
+export const Tree = ({ value, style, path = [], theme: t }) => {
   const theme = {
+    background: "black",
     indent: "2ch",
     guide: ["1px", "dotted", "white"],
     expandButton: "white",
     intermediate: "aqua",
+    selection: "#444",
     error: "salmon",
     ...t,
   };
@@ -96,7 +91,7 @@ export const Tree = ({ value, style, path = [], theme: t, onEvent }) => {
         ...style,
       }}
     >
-      <Node path={path} value={value} theme={theme} onEvent={onEvent} />
+      <Node path={path} value={value} theme={theme} />
     </div>
   );
 };
