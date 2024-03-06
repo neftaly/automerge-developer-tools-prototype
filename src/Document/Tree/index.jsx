@@ -7,7 +7,7 @@ import { equals } from "ramda";
 
 export { EVENTS };
 
-const Node = ({ name, value, path, theme, canKeyBeEdited }) => {
+const Node = ({ name, value, path, theme, canKeyBeEdited, changeDoc }) => {
   const [expanded, setExpanded] = useState(true);
   const [hoverPath, contextMenuPath, actions] = useTree((s) => [
     s.hover,
@@ -42,15 +42,29 @@ const Node = ({ name, value, path, theme, canKeyBeEdited }) => {
         />
       )}
       {name && (
-        <Key value={name} path={path} theme={theme} editable={canKeyBeEdited} />
+        <Key
+          value={name}
+          theme={theme}
+          editable={canKeyBeEdited}
+          onChange={actions.changeKey(path, changeDoc)}
+        />
       )}
       {name && ": "}
       {expandable && openBracket}
       {expanded &&
         (expandable ? (
-          <Branch value={value} path={path} theme={theme} />
+          <Branch
+            value={value}
+            path={path}
+            theme={theme}
+            changeDoc={changeDoc}
+          />
         ) : (
-          <Value value={value} path={path} theme={theme} />
+          <Value
+            value={value}
+            theme={theme}
+            onChange={actions.changeValue(path, changeDoc)}
+          />
         ))}
       {expandable && !expanded && "..."}
       {expandable && closeBracket}
@@ -58,7 +72,7 @@ const Node = ({ name, value, path, theme, canKeyBeEdited }) => {
   );
 };
 
-const Branch = ({ path, value, theme }) => {
+const Branch = ({ path, value, theme, changeDoc }) => {
   const isArray = Array.isArray(value);
   return Object.entries(value).map(([name, v]) => (
     <Node
@@ -68,11 +82,12 @@ const Branch = ({ path, value, theme }) => {
       theme={theme}
       path={[...path, name]}
       canKeyBeEdited={!isArray}
+      changeDoc={changeDoc}
     />
   ));
 };
 
-export const Tree = ({ value, style, path = [], theme: t }) => {
+export const Tree = ({ doc, style, path = [], theme: t, changeDoc }) => {
   const theme = {
     background: "black",
     indent: "2ch",
@@ -91,7 +106,7 @@ export const Tree = ({ value, style, path = [], theme: t }) => {
         ...style,
       }}
     >
-      <Node path={path} value={value} theme={theme} />
+      <Node path={path} value={doc} theme={theme} changeDoc={changeDoc} />
     </div>
   );
 };

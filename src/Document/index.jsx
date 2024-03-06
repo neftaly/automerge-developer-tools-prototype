@@ -34,7 +34,7 @@ export const Document = ({ url }) => {
           overflowY: "scroll",
         }}
       >
-        <Tree value={doc} />
+        <Tree doc={doc} changeDoc={changeDoc} />
         <ContextMenu doc={doc} changeDoc={changeDoc} />
       </div>
     </div>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { isValidJSON, EVENTS } from "./helpers";
-import { toast } from "react-toastify";
 
 const ErrorMessage = ({ theme }) => (
   <span style={{ marginLeft: "2ch", color: theme.error }}>
@@ -57,7 +56,7 @@ const Field = ({ value, style, onChange, theme, allowEmptyStrings }) => {
   );
 };
 
-export const Key = ({ value, onEvent, path, theme, editable }) => {
+export const Key = ({ value, onChange, theme, editable }) => {
   if (!editable) {
     return (
       <span
@@ -72,7 +71,7 @@ export const Key = ({ value, onEvent, path, theme, editable }) => {
   return (
     <Field
       value={value}
-      onChange={(event) => onEvent({ event, path, type: EVENTS.CHANGE_KEY })}
+      onChange={onChange}
       theme={theme}
       style={{
         fontWeight: "bold",
@@ -82,11 +81,11 @@ export const Key = ({ value, onEvent, path, theme, editable }) => {
   );
 };
 
-export const Value = ({ value, onEvent, path, theme }) => {
+export const Value = ({ value, onChange, theme }) => {
   return (
     <Field
       value={value}
-      onChange={(event) => onEvent({ event, path, type: EVENTS.CHANGE_VALUE })}
+      onChange={onChange}
       theme={theme}
       style={{
         minWidth: "20ch",

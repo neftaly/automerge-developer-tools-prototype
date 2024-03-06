@@ -24,7 +24,7 @@ export const useTree = create((set, get) => ({
         },
       });
     },
-    changeKey: (doc, changeDoc) => (event) => {
+    changeKey: (eventPath, changeDoc) => (event) => {
       // this should be a "move" operation
       changeDoc((d) => {
         const newKey = JSON.parse(event.target.value);
@@ -34,9 +34,9 @@ export const useTree = create((set, get) => ({
         return compose(assocPath(newPath, value), dissocPath(eventPath))(d);
       });
     },
-    changeValue: (doc, changeDoc) => (event) => {
+    changeValue: (eventPath, changeDoc) => (event) => {
       // TODO: this should work correctly with arrays
-      const eventPath = get().contextMenu.path;
+      // const eventPath = get().contextMenu.path;
       changeDoc((d) => assocPath(eventPath, JSON.parse(event.target.value), d));
     },
     copyToClipboard: (doc, changeDoc) => () => {
