@@ -3,7 +3,7 @@ import { ExpandButton } from "./ExpandButton";
 import { isObject, isString, EVENTS } from "./helpers";
 import { Key, Value } from "./Fields";
 import { useTree } from "./useTree";
-import { equals } from "ramda";
+import { equals, isEmpty } from "ramda";
 
 export { EVENTS };
 
@@ -14,7 +14,7 @@ const Node = ({ name, value, path, theme, canKeyBeEdited, changeDoc }) => {
     s.contextMenu.path,
     s.actions,
   ]);
-  const expandable = isObject(value);
+  const expandable = isObject(value) && !isEmpty(value);
   const [openBracket, closeBracket] = Array.isArray(value)
     ? ["[", "]"]
     : ["{", "}"];
