@@ -18,6 +18,12 @@ export const ContextMenu = ({ doc, changeDoc }) => {
       <MenuItem onClick={actions.copyToClipboard(doc, changeDoc)}>
         📋 Copy
       </MenuItem>
+      <MenuItem
+        disabled={!navigator.clipboard.readText}
+        onClick={actions.pasteFromClipboard(doc, changeDoc)}
+      >
+        📄 Paste
+      </MenuItem>
       <MenuItem onClick={actions.export(doc, changeDoc)}>
         💾 Export JSON
       </MenuItem>

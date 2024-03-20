@@ -36,13 +36,20 @@ export const useTree = create((set, get) => ({
     },
     changeValue: (eventPath, changeDoc) => (event) => {
       // TODO: this should work correctly with arrays
-      // const eventPath = get().contextMenu.path;
       changeDoc((d) => assocPath(eventPath, JSON.parse(event.target.value), d));
     },
     copyToClipboard: (doc, changeDoc) => () => {
       const eventPath = get().contextMenu.path;
       const data = path(eventPath, doc);
       navigator.clipboard.writeText(JSON.stringify(data, null, 2));
+    },
+    pasteFromClipboard: (doc, changeDoc) => (event) => {
+      const eventPath = get().contextMenu.path;
+      navigator.clipboard
+        .readText()
+        .then(JSON.parse)
+        .then((data) => changeDoc((d) => assocPath(eventPath, data, d)))
+        .catch(console.error);
     },
     export: (doc, changeDoc) => () => {
       const eventPath = get().contextMenu.path;
